@@ -6,7 +6,7 @@
 
 <h1>Data from Direct API</h1>
 
-@if (myApiData == null || myGridData == null)
+@if (myGridData == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -21,13 +21,14 @@ else
 
 @code {
     private IEnumerable<MyGridData>? myApiData;
-    private IQueryable<MyGridData>? myGridData;
+    private IQueryable<MyGridData> myGridData = new List<MyGridData>().AsQueryable();
 
     protected override async Task OnInitializedAsync()
     {
         var client = await httpClientFactory.CreateClientAsync();
 
-        myApiData = await client.GetFromJsonAsync<MyGridData[]>("api/DirectApi");
-        myGridData = myGridData!.AsQueryable();
+        var myApiData = await client.GetFromJsonAsync<MyGridData[]>("api/DirectApi");
+
+        if (myApiData != null) myGridData = myApiData.AsQueryable();
     }
 }
