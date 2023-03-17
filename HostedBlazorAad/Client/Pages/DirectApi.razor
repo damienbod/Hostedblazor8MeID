@@ -6,13 +6,13 @@
 
 <h1>Data from Direct API</h1>
 
-@if (myApiData == null)
+@if (myApiData == null || myGridData == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-<QuickGrid Items="@myGridData">
+<QuickGrid Items="@myGridData" >
     <PropertyColumn Property="@(p => p.Id)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Name)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Colour)" Sortable="true" />
