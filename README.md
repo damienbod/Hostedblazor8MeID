@@ -1,5 +1,7 @@
 # Hosted Blazor .NET 8 AAD
 
+A first look at Blazor and .NET 8
+
 ## Links
 
 https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8
