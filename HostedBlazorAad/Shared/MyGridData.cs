@@ -37,7 +37,7 @@ public static class MyData
         new MyGridData { Id = 12, Name = "Séan", Colour = Colours.GREEN},
         new MyGridData { Id = 13, Name = "Deirdre", Colour = Colours.RED},
         new MyGridData { Id = 14, Name = "Nuala", Colour = Colours.YELLOW},
-        new MyGridData { Id = 15, Name = "Louise", Colour = Colours.BLUE},
+        new MyGridData { Id = 15, Name = "Lorna", Colour = Colours.BLUE},
         new MyGridData { Id = 16, Name = "Linda", Colour = Colours.WHITE},
         new MyGridData { Id = 17, Name = "Eileen", Colour = Colours.ORANGE},
         new MyGridData { Id = 18, Name = "Siobhain", Colour = Colours.RED},
