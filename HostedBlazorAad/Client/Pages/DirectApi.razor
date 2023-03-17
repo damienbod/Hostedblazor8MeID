@@ -1,39 +1,33 @@
 ﻿@page "/directapi"
+@using HostedBlazorAad.Shared
+@using Microsoft.AspNetCore.Components.QuickGrid
 @inject IAntiforgeryHttpClientFactory httpClientFactory
 @inject IJSRuntime JSRuntime
 
 <h1>Data from Direct API</h1>
 
-@if (apiData == null)
+@if (myApiData == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Data</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var data in apiData)
-            {
-                <tr>
-                    <td>@data</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<QuickGrid Items="@myGridData">
+    <PropertyColumn Property="@(p => p.Id)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.Name)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.Colour)" Sortable="true" />
+</QuickGrid>
 }
 
 @code {
-    private string[]? apiData;
+    private IEnumerable<MyGridData>? myApiData;
+    private IQueryable<MyGridData>? myGridData;
 
     protected override async Task OnInitializedAsync()
     {
         var client = await httpClientFactory.CreateClientAsync();
 
-        apiData = await client.GetFromJsonAsync<string[]>("api/DirectApi");
+        myApiData = await client.GetFromJsonAsync<MyGridData[]>("api/DirectApi");
+        myGridData = myGridData!.AsQueryable();
     }
 }

@@ -14,6 +14,7 @@ public class DirectApiController : ControllerBase
     [HttpGet]
     public IEnumerable<MyGridData> Get()
     {
-        return Random.Shared.GetItems(MyData.GetData(), 10);
+        var data = Random.Shared.GetItems(MyData.GetData(), 10);
+        return data;
     }
 }
