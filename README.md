@@ -1,6 +1,6 @@
-# Hosted Blazor .NET 8 AAD
+# Hosted Blazor .NET 8 application using Azure AD
 
-A first look at Blazor and .NET 8
+A first look at Blazor and .NET 8 secured with Azure AD
 
 ## Links
 
