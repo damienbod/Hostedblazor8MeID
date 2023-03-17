@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Client\HostedBlazorAad.Client.csproj" />
+		<ProjectReference Include="..\Shared\HostedBlazorAad.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.3" NoWarn="NU1605" />
+		<PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.5.0" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="2.5.0" />
+		<PackageReference Include="Microsoft.Identity.Web.UI" Version="2.5.0" />
+		<PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.18.0" />
+	</ItemGroup>
+
+</Project>
