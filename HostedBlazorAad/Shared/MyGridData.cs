@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace HostedBlazorAad.Shared;
 
@@ -21,7 +22,7 @@ public static class Colours
 
 public static class MyData
 {
-    public static List<MyGridData> Data = new List<MyGridData>
+    private static readonly MyGridData[] _mydata = new MyGridData[]
     {
         new MyGridData { Id = 1, Name = "Liam", Colour = Colours.GREEN},
         new MyGridData { Id = 2, Name = "Michael", Colour = Colours.RED},
@@ -57,4 +58,9 @@ public static class MyData
         new MyGridData { Id = 32, Name = "Daithi", Colour = Colours.YELLOW},
         new MyGridData { Id = 33, Name = "Patrick", Colour = Colours.ORANGE},
     };
+
+    public static ReadOnlySpan<MyGridData> GetData()
+    {
+        return _mydata.AsSpan();
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using HostedBlazorAad.Shared;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +12,8 @@ namespace HostedBlazorAad.Server.Controllers;
 public class DirectApiController : ControllerBase
 {
     [HttpGet]
-    public IEnumerable<string> Get()
+    public IEnumerable<MyGridData> Get()
     {
-        return new List<string> { "some data", "more data", "loads of data" };
+        return Random.Shared.GetItems(MyData.GetData(), 10);
     }
 }
