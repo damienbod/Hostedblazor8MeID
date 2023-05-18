@@ -32,7 +32,8 @@ public static class SecurityHeadersDefinitions
                 builder.AddScriptSrc()
                     .Self()
                     .WithHash256("v8v3RKRPmN4odZ1CWM5gw80QKPCCWMcpNeOmimNL2AA=")
-                    .UnsafeEval();
+                    //.WasmUnsafeEval(); cannot use in .NET 8 preview
+                    .UnsafeEval(); // this can be removed in .net 7 and replace with WasmUnsafeEval()
             })
             .RemoveServerHeader()
             .AddPermissionsPolicy(builder =>
