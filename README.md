@@ -2,6 +2,10 @@
 
 [A first look at Blazor and .NET 8 secured with Azure AD](https://damienbod.com/2023/03/20/a-first-look-at-blazor-and-net-8/)
 
+## History
+
+2023-05-18 Updated .NET 8 preview 4
+
 ## Links
 
 https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8
