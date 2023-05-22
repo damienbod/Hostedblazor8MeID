@@ -2,6 +2,8 @@
 
 [A first look at Blazor and .NET 8 secured with Azure AD](https://damienbod.com/2023/03/20/a-first-look-at-blazor-and-net-8/)
 
+[Blazor and CSP](https://damienbod.com/2023/05/22/blazor-and-csp/)
+
 ## History
 
 2023-05-18 Updated .NET 8 preview 4
