@@ -15,7 +15,7 @@ public static class SecurityHeadersDefinitions
             .AddReferrerPolicyStrictOriginWhenCrossOrigin()
             .AddCrossOriginOpenerPolicy(builder => builder.SameOrigin())
             .AddCrossOriginResourcePolicy(builder => builder.SameOrigin())
-            .AddCrossOriginEmbedderPolicy(builder => builder.RequireCorp())
+            .AddCrossOriginEmbedderPolicy(builder => builder.RequireCorp()) // remove for dev if using hot reload
             .AddContentSecurityPolicy(builder =>
             {
                 builder.AddObjectSrc().None();
@@ -31,8 +31,10 @@ public static class SecurityHeadersDefinitions
                 builder.AddScriptSrc()
                     .Self()
                     .WithHash256("v8v3RKRPmN4odZ1CWM5gw80QKPCCWMcpNeOmimNL2AA=")
-                    //.WasmUnsafeEval(); cannot use in .NET due to scripts
                     .UnsafeEval();
+
+                // disable script and style CSP protection if using Blazor hot reload
+                // if using hot reload, DO NOT deploy with an insecure CSP
             })
             .RemoveServerHeader()
             .AddPermissionsPolicy(builder =>
@@ -55,7 +57,7 @@ public static class SecurityHeadersDefinitions
 
         if (!isDev)
         {
-            // maxAge = one year in seconds
+            // maxage = one year in seconds
             policy.AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 60 * 60 * 24 * 365);
         }
 
