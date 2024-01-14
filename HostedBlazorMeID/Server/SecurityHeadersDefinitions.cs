@@ -26,7 +26,6 @@ public static class SecurityHeadersDefinitions
 
                 // due to Blazor
                 builder.AddScriptSrc()
-                    .Self()
                     .WithNonce()
                     .UnsafeEval();
 
