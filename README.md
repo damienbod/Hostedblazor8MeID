@@ -8,9 +8,8 @@
 
 ## History
 
-2024-01-14 Updated .NET 8, fixed security headers, use CSP nonce
-
-2023-05-18 Updated .NET 8 preview 4
+- 2024-01-14 Updated .NET 8, fixed security headers, use CSP nonce
+- 2023-05-18 Updated .NET 8 preview 4
 
 ## Links
 
