@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>7f0fe809-76e8-4ffc-92c5-5cd209aa470d</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.1" />
+		<PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="0.21.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Client\HostedBlazorMeID.Client.csproj" />
+		<ProjectReference Include="..\Shared\HostedBlazorMeID.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.1" NoWarn="NU1605" />
+		<PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.16.1" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="2.16.1" />
+		<PackageReference Include="Microsoft.Identity.Web.UI" Version="2.16.1" />
+		<PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.21.0" />
+	</ItemGroup>
+
+</Project>
