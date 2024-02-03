@@ -25,3 +25,5 @@ https://aspnet.github.io/quickgridsamples/sample
 https://developercommunity.visualstudio.com/t/browserlink-CSP-support-NET-7/10061464
 
 https://github.com/dotnet/AspNetCore.Docs/pull/29294
+
+https://github.com/CrahunGit/Auth0BlazorWebAppSample/tree/master/BlazorApp4
