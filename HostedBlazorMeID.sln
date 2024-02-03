@@ -9,11 +9,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HostedBlazorMeID.Shared", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HostedBlazorMeID.Client", "HostedBlazorMeID\Client\HostedBlazorMeID.Client.csproj", "{966BE754-425C-4AD8-8F8F-5A0457F529D4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1B2DDA14-4F99-4310-A947-ECADCA7C6936}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_solutionItems", "_solutionItems", "{1B2DDA14-4F99-4310-A947-ECADCA7C6936}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HostedBlazorMeID", "HostedBlazorMeID", "{879F8113-25EE-41C1-B080-51C85B9B35C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorWebMeID", "BlazorWebMeID", "{41467602-F4AB-4E18-95E9-89DD4BDE010E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWebMeID.Client", "BlazorWebMeID\BlazorWebMeID.Client\BlazorWebMeID.Client.csproj", "{C491CAFA-681F-4F4C-8423-D4EF38E61272}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWebMeID", "BlazorWebMeID\BlazorWebMeID\BlazorWebMeID.csproj", "{F173A549-80F7-47F6-99BC-AD77A7BC6B02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +41,24 @@ Global
 		{966BE754-425C-4AD8-8F8F-5A0457F529D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{966BE754-425C-4AD8-8F8F-5A0457F529D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{966BE754-425C-4AD8-8F8F-5A0457F529D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C491CAFA-681F-4F4C-8423-D4EF38E61272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C491CAFA-681F-4F4C-8423-D4EF38E61272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C491CAFA-681F-4F4C-8423-D4EF38E61272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C491CAFA-681F-4F4C-8423-D4EF38E61272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F173A549-80F7-47F6-99BC-AD77A7BC6B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F173A549-80F7-47F6-99BC-AD77A7BC6B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F173A549-80F7-47F6-99BC-AD77A7BC6B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F173A549-80F7-47F6-99BC-AD77A7BC6B02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{717E3063-F07D-4A0D-863C-0509DF40D4FD} = {879F8113-25EE-41C1-B080-51C85B9B35C8}
+		{F41066B6-4F3A-4EDC-907C-8800BF4AAD61} = {879F8113-25EE-41C1-B080-51C85B9B35C8}
+		{966BE754-425C-4AD8-8F8F-5A0457F529D4} = {879F8113-25EE-41C1-B080-51C85B9B35C8}
+		{C491CAFA-681F-4F4C-8423-D4EF38E61272} = {41467602-F4AB-4E18-95E9-89DD4BDE010E}
+		{F173A549-80F7-47F6-99BC-AD77A7BC6B02} = {41467602-F4AB-4E18-95E9-89DD4BDE010E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DBF8473-06FC-43AF-A14F-41F17AB93C7E}
