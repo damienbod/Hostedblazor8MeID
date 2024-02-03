@@ -25,10 +25,10 @@ public static class SecurityHeadersDefinitions
                 builder.AddFrameAncestors().None();
 
                 // due to Blazor Web, nonces cannot be used :(
+                // weak script CSP....
                 builder.AddScriptSrc()
-                    .Self()
+                    .Self() // self required
                     .UnsafeEval() // due to Blazor WASM
-                    .StrictDynamic()
                     .UnsafeInline(); // only a fallback for older browsers when the nonce is used 
             
             })
