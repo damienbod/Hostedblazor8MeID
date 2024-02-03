@@ -80,7 +80,7 @@ app.UseAntiforgery();
 
 app.MapGet("/Account/Login", async (HttpContext httpContext, string returnUrl = "/") =>
 {
-    await httpContext.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, 
+    await httpContext.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme,
         new AuthenticationProperties
         {
             RedirectUri = !string.IsNullOrEmpty(returnUrl) ? returnUrl : "/"
