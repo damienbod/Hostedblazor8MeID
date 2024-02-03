@@ -2,8 +2,8 @@
 @attribute [AllowAnonymous]
 @inject NavigationManager NavigationManager
 
-@code {
-
+@code 
+{
     protected override async Task OnInitializedAsync()
     {
         var returnUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
