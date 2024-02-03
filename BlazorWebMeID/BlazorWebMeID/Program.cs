@@ -4,6 +4,7 @@ using BlazorWebMeID.Client.Services;
 using BlazorWebMeID.Components;
 using BlazorWebMeID.Identity;
 using BlazorWebMeID.Services;
+using HostedBlazorMeID.Server;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -69,6 +70,10 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseSecurityHeaders(
+    SecurityHeadersDefinitions.GetHeaderPolicyCollection(app.Environment.IsDevelopment(),
+        app.Configuration["AzureAd:Instance"]));
 
 app.UseHttpsRedirection();
 
