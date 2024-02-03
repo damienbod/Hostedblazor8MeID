@@ -88,7 +88,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
 builder.Services.AddScoped<HostingEnvironmentService>();
 builder.Services.AddSingleton<BaseUrlProvider>();
@@ -138,6 +137,7 @@ app.MapGet("/Account/Login", async (HttpContext httpContext, string returnUrl = 
         });
 });
 
+// TODO change to POST and use CSRF protection
 app.MapGet("/Account/Logout", async (HttpContext httpContext, string returnUrl = "/") =>
 {
     var authenticationProperties = new AuthenticationProperties

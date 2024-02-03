@@ -8,89 +8,88 @@ using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Security.Claims;
 
-namespace BlazorWebMeID.Identity
+namespace BlazorWebMeID.Identity;
+
+public class PersistingRevalidatingAuthenticationStateProvider : RevalidatingServerAuthenticationStateProvider
 {
-    public class PersistingRevalidatingAuthenticationStateProvider : RevalidatingServerAuthenticationStateProvider
+    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly PersistentComponentState _state;
+    private readonly IdentityOptions _options;
+
+    private readonly PersistingComponentStateSubscription _subscription;
+
+    private Task<AuthenticationState>? _authenticationStateTask;
+
+    public PersistingRevalidatingAuthenticationStateProvider(
+        ILoggerFactory loggerFactory,
+        IServiceScopeFactory scopeFactory,
+        PersistentComponentState state,
+        IOptions<IdentityOptions> options)
+        : base(loggerFactory)
     {
-        private readonly IServiceScopeFactory _scopeFactory;
-        private readonly PersistentComponentState _state;
-        private readonly IdentityOptions _options;
+        _scopeFactory = scopeFactory;
+        _state = state;
+        _options = options.Value;
 
-        private readonly PersistingComponentStateSubscription _subscription;
+        AuthenticationStateChanged += OnAuthenticationStateChanged;
+        _subscription = state.RegisterOnPersisting(OnPersistingAsync, RenderMode.InteractiveWebAssembly);
+    }
 
-        private Task<AuthenticationState>? _authenticationStateTask;
+    protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(30);
 
-        public PersistingRevalidatingAuthenticationStateProvider(
-            ILoggerFactory loggerFactory,
-            IServiceScopeFactory scopeFactory,
-            PersistentComponentState state,
-            IOptions<IdentityOptions> options)
-            : base(loggerFactory)
+    protected override async Task<bool> ValidateAuthenticationStateAsync(
+        AuthenticationState authenticationState, CancellationToken cancellationToken)
+    {
+        // Get the user manager from a new scope to ensure it fetches fresh data
+        await using var scope = _scopeFactory.CreateAsyncScope();
+        return ValidateSecurityStampAsync(authenticationState.User);
+    }
+
+    private bool ValidateSecurityStampAsync(ClaimsPrincipal principal)
+    {
+        if (principal.Identity?.IsAuthenticated is false)
         {
-            _scopeFactory = scopeFactory;
-            _state = state;
-            _options = options.Value;
-
-            AuthenticationStateChanged += OnAuthenticationStateChanged;
-            _subscription = state.RegisterOnPersisting(OnPersistingAsync, RenderMode.InteractiveWebAssembly);
+            return false;
         }
 
-        protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(30);
+        return true;
+    }
 
-        protected override async Task<bool> ValidateAuthenticationStateAsync(
-            AuthenticationState authenticationState, CancellationToken cancellationToken)
+    private void OnAuthenticationStateChanged(Task<AuthenticationState> authenticationStateTask)
+    {
+        _authenticationStateTask = authenticationStateTask;
+    }
+
+    private async Task OnPersistingAsync()
+    {
+        if (_authenticationStateTask is null)
         {
-            // Get the user manager from a new scope to ensure it fetches fresh data
-            await using var scope = _scopeFactory.CreateAsyncScope();
-            return ValidateSecurityStampAsync(authenticationState.User);
+            throw new UnreachableException($"Authentication state not set in {nameof(RevalidatingServerAuthenticationStateProvider)}.{nameof(OnPersistingAsync)}().");
         }
 
-        private bool ValidateSecurityStampAsync(ClaimsPrincipal principal)
+        var authenticationState = await _authenticationStateTask;
+        var principal = authenticationState.User;
+
+        if (principal.Identity?.IsAuthenticated == true)
         {
-            if (principal.Identity?.IsAuthenticated is false)
+            var userId = principal.FindFirst(_options.ClaimsIdentity.UserIdClaimType)?.Value;
+            var email = principal.FindFirst("name")?.Value;
+
+            if (userId != null && email != null)
             {
-                return false;
-            }
-
-            return true;
-        }
-
-        private void OnAuthenticationStateChanged(Task<AuthenticationState> authenticationStateTask)
-        {
-            _authenticationStateTask = authenticationStateTask;
-        }
-
-        private async Task OnPersistingAsync()
-        {
-            if (_authenticationStateTask is null)
-            {
-                throw new UnreachableException($"Authentication state not set in {nameof(RevalidatingServerAuthenticationStateProvider)}.{nameof(OnPersistingAsync)}().");
-            }
-
-            var authenticationState = await _authenticationStateTask;
-            var principal = authenticationState.User;
-
-            if (principal.Identity?.IsAuthenticated == true)
-            {
-                var userId = principal.FindFirst(_options.ClaimsIdentity.UserIdClaimType)?.Value;
-                var email = principal.FindFirst("name")?.Value;
-
-                if (userId != null && email != null)
+                _state.PersistAsJson(nameof(UserInfo), new UserInfo
                 {
-                    _state.PersistAsJson(nameof(UserInfo), new UserInfo
-                    {
-                        UserId = userId,
-                        Email = email,
-                    });
-                }
+                    UserId = userId,
+                    Email = email,
+                });
             }
         }
+    }
 
-        protected override void Dispose(bool disposing)
-        {
-            _subscription.Dispose();
-            AuthenticationStateChanged -= OnAuthenticationStateChanged;
-            base.Dispose(disposing);
-        }
+    protected override void Dispose(bool disposing)
+    {
+        _subscription.Dispose();
+        AuthenticationStateChanged -= OnAuthenticationStateChanged;
+        base.Dispose(disposing);
     }
 }
