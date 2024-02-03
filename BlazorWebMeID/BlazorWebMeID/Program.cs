@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,71 +23,13 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
 // Add authentication services
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-})
-.AddCookie(options =>
-{
-    options.Cookie.Name = "__Host-BlazorServer";
-    options.Cookie.SameSite = SameSiteMode.Lax;
-})
-.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
-{
-    options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}";
-    options.ClientId = builder.Configuration["Auth0:ClientId"];
-    options.ClientSecret = builder.Configuration["Auth0:ClientSecret"];
-    options.ResponseType = OpenIdConnectResponseType.Code;
-    options.Scope.Clear();
-    options.Scope.Add("openid");
-    options.Scope.Add("profile");
-    options.Scope.Add("email");
-    options.Scope.Add("auth0-user-api-one");
-    options.CallbackPath = new PathString("/signin-oidc");
-    options.ClaimsIssuer = "Auth0";
-    options.SaveTokens = true;
-    options.UsePkce = true;
-    options.GetClaimsFromUserInfoEndpoint = true;
-    options.TokenValidationParameters.NameClaimType = "name";
+var scopes = builder.Configuration.GetValue<string>("DownstreamApi:Scopes");
+string[] initialScopes = scopes!.Split(' ');
 
-    options.Events = new OpenIdConnectEvents
-    {
-        // handle the logout redirection 
-        OnRedirectToIdentityProviderForSignOut = (context) =>
-        {
-            var logoutUri = $"https://{builder.Configuration["Auth0:Domain"]}/v2/logout?client_id={builder.Configuration["Auth0:ClientId"]}";
-
-            var postLogoutUri = context.Properties.RedirectUri;
-            if (!string.IsNullOrEmpty(postLogoutUri))
-            {
-                if (postLogoutUri.StartsWith("/"))
-                {
-                    // transform to absolute
-                    var request = context.Request;
-                    postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
-                }
-                logoutUri += $"&returnTo={Uri.EscapeDataString(postLogoutUri)}";
-            }
-
-            context.Response.Redirect(logoutUri);
-            context.HandleResponse();
-
-            return Task.CompletedTask;
-        },
-        OnRedirectToIdentityProvider = context =>
-        {
-            // The context's ProtocolMessage can be used to pass along additional query parameters
-            // to Auth0's /authorize endpoint.
-            // 
-            // Set the audience query parameter to the API identifier to ensure the returned Access Tokens can be used
-            // to call protected endpoints on the corresponding API.
-            context.ProtocolMessage.SetParameter("audience", "https://auth0-api1");
-
-            return Task.FromResult(0);
-        }
-    };
-});
+builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration)
+    .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
+    .AddMicrosoftGraph("https://graph.microsoft.com/v1.0", scopes)
+    .AddInMemoryTokenCaches();
 
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
 builder.Services.AddScoped<HostingEnvironmentService>();
@@ -105,6 +48,13 @@ builder.Services
         client.BaseAddress = new Uri(uri);
     }).AddHttpMessageHandler<CookieHandler>();
 
+builder.Services.AddRazorPages().AddMvcOptions(options =>
+{
+    //var policy = new AuthorizationPolicyBuilder()
+    //    .RequireAuthenticatedUser()
+    //    .Build();
+    //options.Filters.Add(new AuthorizeFilter(policy));
+}).AddMicrosoftIdentityUI();
 
 var app = builder.Build();
 
