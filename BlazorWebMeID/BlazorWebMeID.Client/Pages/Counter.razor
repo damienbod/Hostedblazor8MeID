@@ -1,0 +1,63 @@
+﻿@page "/counter"
+@using Microsoft.AspNetCore.Authorization
+@using BlazorWebMeID.Client.Services
+
+@rendermode InteractiveAuto
+@inject IHttpClientFactory HttpClientFactory
+@inject HostingEnvironmentService HostingEnvironmentService
+@attribute [Authorize]
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="SayHello">SayHello</button>
+<p role="status">Say: @say</p>
+
+
+@code {
+    private int currentCount = 0;
+    private string say = string.Empty;
+
+    [SupplyParameterFromForm]
+    public string? text { get; set; }
+
+    private bool isSaving = false;
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    private async Task SayHello()
+    {        
+        var client = HttpClientFactory.CreateClient("API");
+        say = await client.GetStringAsync("/hello");
+		say = say + " called from " + HostingEnvironmentService.EnvironmentName;
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private async void HandleSubmit()
+    {
+
+        isSaving = true;
+        await Task.Delay(2000);
+
+        isSaving = false;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            await SayHello();
+        }
+    }
+}
