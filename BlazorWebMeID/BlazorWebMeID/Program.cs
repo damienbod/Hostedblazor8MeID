@@ -81,6 +81,9 @@ app.UseAntiforgery();
 
 AuthenticationExtensions.SetupEndpoints(app);
 
+app.MapGet("/api/Counter", (HttpContext httpContext) => Results.Ok("Hi!"))
+   .RequireAuthorization();
+
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
