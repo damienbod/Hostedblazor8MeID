@@ -1,12 +1,10 @@
+using BlazorWebMeID;
 using BlazorWebMeID.Client;
 using BlazorWebMeID.Client.Pages;
 using BlazorWebMeID.Client.Services;
 using BlazorWebMeID.Identity;
 using BlazorWebMeID.Services;
 using HostedBlazorMeID.Server;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Identity.Web;
@@ -80,33 +78,7 @@ app.UseAuthorization();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapGet("/Account/Login", async (HttpContext httpContext, string returnUrl = "/") =>
-{
-    await httpContext.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme,
-        new AuthenticationProperties
-        {
-            RedirectUri = !string.IsNullOrEmpty(returnUrl) ? returnUrl : "/"
-        });
-});
-
-app.MapGet("/Account/Logout", async (HttpContext httpContext, string returnUrl = "/") =>
-{
-    var authenticationProperties = new AuthenticationProperties
-    {
-        RedirectUri = "/SignedOut"
-    };
-    if (httpContext.Request.Cookies.Count > 0)
-    {
-        var siteCookies = httpContext.Request.Cookies.Where(c => c.Key.Contains(".AspNetCore.") || c.Key.Contains("Microsoft.Authentication"));
-        foreach (var cookie in siteCookies)
-        {
-            httpContext.Response.Cookies.Delete(cookie.Key);
-        }
-    }
-
-    await httpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme, authenticationProperties);
-    await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-}).RequireAuthorization();
+AuthenticationExtensions.SetupEndpoints(app);
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
