@@ -27,3 +27,5 @@ https://developercommunity.visualstudio.com/t/browserlink-CSP-support-NET-7/1006
 https://github.com/dotnet/AspNetCore.Docs/pull/29294
 
 https://github.com/CrahunGit/Auth0BlazorWebAppSample/tree/master/BlazorApp4
+
+https://github.com/dotnet/blazor-samples/tree/main/8.0/BlazorWebAppOidc
