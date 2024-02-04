@@ -97,7 +97,7 @@ app.MapGet("/Account/Logout", async (HttpContext httpContext, string returnUrl =
 {
     var authenticationProperties = new AuthenticationProperties
     {
-        RedirectUri = "/"
+        RedirectUri = "/SignedOut"
     };
     if (httpContext.Request.Cookies.Count > 0)
     {
