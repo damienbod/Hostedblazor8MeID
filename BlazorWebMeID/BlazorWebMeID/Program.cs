@@ -1,7 +1,6 @@
 using BlazorWebMeID.Client;
 using BlazorWebMeID.Client.Pages;
 using BlazorWebMeID.Client.Services;
-using BlazorWebMeID.Components;
 using BlazorWebMeID.Identity;
 using BlazorWebMeID.Services;
 using HostedBlazorMeID.Server;
@@ -76,10 +75,8 @@ app.UseSecurityHeaders(
         app.Configuration["AzureAd:Instance"]));
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseStaticFiles();
 app.UseAntiforgery();
 
@@ -92,7 +89,6 @@ app.MapGet("/Account/Login", async (HttpContext httpContext, string returnUrl = 
         });
 });
 
-// TODO change to POST and use CSRF protection
 app.MapGet("/Account/Logout", async (HttpContext httpContext, string returnUrl = "/") =>
 {
     var authenticationProperties = new AuthenticationProperties
@@ -110,11 +106,7 @@ app.MapGet("/Account/Logout", async (HttpContext httpContext, string returnUrl =
 
     await httpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme, authenticationProperties);
     await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-})
-    .RequireAuthorization();
-
-app.MapGet("/Hello", (HttpContext httpContext) => Results.Ok("Hi!"))
-   .RequireAuthorization();
+}).RequireAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
