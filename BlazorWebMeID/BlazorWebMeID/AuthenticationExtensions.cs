@@ -16,7 +16,7 @@ public static class AuthenticationExtensions
                 });
         });
 
-        app.MapGet("/Account/Logout", async (HttpContext httpContext, string returnUrl = "/") =>
+        app.MapPost("/Account/Logout", async (HttpContext httpContext, string returnUrl = "/") =>
         {
             var authenticationProperties = new AuthenticationProperties
             {
