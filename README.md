@@ -29,3 +29,5 @@ https://github.com/dotnet/AspNetCore.Docs/pull/29294
 https://github.com/CrahunGit/Auth0BlazorWebAppSample/tree/master/BlazorApp4
 
 https://github.com/dotnet/blazor-samples/tree/main/8.0/BlazorWebAppOidc
+
+https://github.com/AzureAD/microsoft-identity-web
