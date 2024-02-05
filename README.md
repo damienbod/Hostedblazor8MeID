@@ -9,7 +9,7 @@
 
 ## Blazor Web
 
-- [Secure an ASP.NET Core Blazor Web app using Microsoft Entra ID](https://damienbod.com)
+- [Secure an ASP.NET Core Blazor Web app using Microsoft Entra ID](https://damienbod.com/2024/02/05/secure-an-asp-net-core-blazor-web-app-using-microsoft-entra-id/)
 
 ## History
 
