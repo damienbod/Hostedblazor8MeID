@@ -1,5 +1,5 @@
-using BlazorWebMeID.Client;
-using BlazorWebMeID.Client.Services;
+using BlazorWebMeID.Client.Identity;
+using BlazorWebMeID.Identity.Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace BlazorWebMeID.Client.Services;
+namespace BlazorWebMeID.Identity.Client.Services;
 
 public class HostingEnvironmentService
 {

@@ -1,4 +1,4 @@
-using BlazorWebMeID.Client;
+using BlazorWebMeID.Client.Identity;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;

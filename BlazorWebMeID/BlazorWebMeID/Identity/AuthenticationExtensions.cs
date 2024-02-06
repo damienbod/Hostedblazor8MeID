@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication;
-namespace BlazorWebMeID;
+
+namespace BlazorWebMeID.Identity;
 
 public static class AuthenticationExtensions
 {
