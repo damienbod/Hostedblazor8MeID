@@ -11,10 +11,9 @@ builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticat
 builder.Services.AddScoped<HostingEnvironmentService>();
 
 builder.Services
-    .AddTransient<CookieHandler>()
     .AddScoped(sp => sp
         .GetRequiredService<IHttpClientFactory>()
         .CreateClient("API"))
-    .AddHttpClient("API", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)).AddHttpMessageHandler<CookieHandler>();
+    .AddHttpClient("API", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
 await builder.Build().RunAsync();

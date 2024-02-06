@@ -36,7 +36,6 @@ builder.Services.AddSingleton<BaseUrlProvider>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services
-    .AddTransient<CookieHandler>()
     .AddScoped(sp => sp
         .GetRequiredService<IHttpClientFactory>()
         .CreateClient("API"))
@@ -45,7 +44,7 @@ builder.Services
         // Get base address
         var uri = provider.GetRequiredService<BaseUrlProvider>().BaseUrl;
         client.BaseAddress = new Uri(uri);
-    }).AddHttpMessageHandler<CookieHandler>();
+    });
 
 builder.Services.AddRazorPages().AddMvcOptions(options =>
 {
