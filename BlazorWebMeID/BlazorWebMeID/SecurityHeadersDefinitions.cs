@@ -30,7 +30,7 @@ public static class SecurityHeadersDefinitions
                     .Self() // self required
                     .UnsafeEval() // due to Blazor WASM
                     .UnsafeInline(); // only a fallback for older browsers when the nonce is used 
-            
+
             })
             .RemoveServerHeader()
             .AddPermissionsPolicy(builder =>

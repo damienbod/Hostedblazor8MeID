@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authentication;
 
 namespace BlazorWebMeID.Identity;
 
@@ -24,7 +24,7 @@ public static class AuthenticationExtensions
                 RedirectUri = "/SignedOut"
             };
 
-            await httpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme, 
+            await httpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme,
                 authenticationProperties);
 
             await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

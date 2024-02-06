@@ -16,18 +16,17 @@
 <button class="btn btn-primary" @onclick="SayHello">SayHello</button>
 <p role="status">Say: @say</p>
 
-
 @code {
-    private int currentCount = 0;
-    private string say = string.Empty;
 
     [SupplyParameterFromForm]
     public string? text { get; set; }
 
-    private bool isSaving = false;
-
     [CascadingParameter]
     private Task<AuthenticationState>? authenticationState { get; set; }
+
+    private int currentCount = 0;
+    private string say = string.Empty;
+    private bool isSaving = false;
 
     private async Task SayHello()
     {        
@@ -43,7 +42,6 @@
 
     private async void HandleSubmit()
     {
-
         isSaving = true;
         await Task.Delay(2000);
 
