@@ -23,19 +23,6 @@ public static class AuthenticationExtensions
             {
                 RedirectUri = "/SignedOut"
             };
-            if (httpContext.Request.Cookies.Count > 0)
-            {
-                var siteCookies = httpContext
-                    .Request
-                    .Cookies
-                    .Where(c => c.Key.Contains(".AspNetCore.") 
-                        || c.Key.Contains("Microsoft.Authentication"));
-
-                foreach (var cookie in siteCookies)
-                {
-                    httpContext.Response.Cookies.Delete(cookie.Key);
-                }
-            }
 
             await httpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme, 
                 authenticationProperties);
