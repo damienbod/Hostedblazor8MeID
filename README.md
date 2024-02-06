@@ -36,6 +36,8 @@ https://github.com/CrahunGit/Auth0BlazorWebAppSample/tree/master/BlazorApp4
 
 https://github.com/dotnet/blazor-samples/tree/main/8.0/BlazorWebAppOidc
 
+https://auth0.com/blog/auth0-authentication-blazor-web-apps/
+
 https://github.com/AzureAD/microsoft-identity-web
 
 https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders
