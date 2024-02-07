@@ -13,7 +13,7 @@
 
 ## History
 
-- 2024-02-06 Use default cookie settings, clean up namespaces, updated packages
+- 2024-02-07 Use default cookie settings, clean up namespaces, updated packages
 - 2024-02-03 Added Blazor Web OIDC, fixed refresh bug in Hosted WASM 
 - 2024-01-14 Updated .NET 8, fixed security headers, use CSP nonce
 - 2023-05-18 Updated .NET 8 preview 4

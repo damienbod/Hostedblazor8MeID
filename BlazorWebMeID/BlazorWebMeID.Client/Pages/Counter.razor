@@ -13,26 +13,26 @@
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-<button class="btn btn-primary" @onclick="SayHello">SayHello</button>
-<p role="status">Say: @say</p>
+<button class="btn btn-primary" @onclick="FetchData">Fetch data using Api</button>
+<p role="status">Say: @DataFromApi</p>
 
 @code {
 
     [SupplyParameterFromForm]
-    public string? text { get; set; }
+    public string? Text { get; set; }
 
     [CascadingParameter]
-    private Task<AuthenticationState>? authenticationState { get; set; }
+    private Task<AuthenticationState>? AuthenticationState { get; set; }
 
     private int currentCount = 0;
-    private string say = string.Empty;
+    private string DataFromApi = string.Empty;
     private bool isSaving = false;
 
-    private async Task SayHello()
+    private async Task FetchData()
     {        
         var client = HttpClientFactory.CreateClient("API");
-        say = await client.GetStringAsync("/api/Counter");
-		say = say + " called from " + HostingEnvironmentService.EnvironmentName;
+        var dataApi = await client.GetStringAsync("/api/Counter");
+        DataFromApi = $"Data fetched: {dataApi} ,  called from {HostingEnvironmentService.EnvironmentName}";
     }
 
     private void IncrementCount()
@@ -51,10 +51,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (authenticationState is not null)
+        if (AuthenticationState is not null)
         {
-            var authState = await authenticationState;
-            await SayHello();
+            var authState = await AuthenticationState;
+            await FetchData();
         }
     }
 }
