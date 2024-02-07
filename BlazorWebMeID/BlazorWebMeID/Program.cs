@@ -78,7 +78,7 @@ app.UseAntiforgery();
 
 AuthenticationExtensions.SetupEndpoints(app);
 
-app.MapGet("/api/Counter", (HttpContext httpContext) => Results.Ok("Hi!"))
+app.MapGet("/api/Counter", (HttpContext httpContext) => Results.Ok("Data from secure API"))
    .RequireAuthorization();
 
 app.MapRazorComponents<App>()
