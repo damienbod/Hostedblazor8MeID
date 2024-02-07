@@ -28,7 +28,9 @@ builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration)
     .AddMicrosoftGraph("https://graph.microsoft.com/v1.0", scopes)
     .AddInMemoryTokenCaches();
 
+// Without, the client component using the API as an error in server mode
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
+
 builder.Services.AddScoped<HostingEnvironmentService>();
 builder.Services.AddSingleton<BaseUrlProvider>();
 builder.Services.AddHttpContextAccessor();
