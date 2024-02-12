@@ -29,6 +29,7 @@ public static class SecurityHeadersDefinitions
                       .WithNonce()
                       .UnsafeEval() // due to Blazor WASM
                       .StrictDynamic()
+                      .OverHttps()
                       .UnsafeInline(); // only a fallback for older browsers when the nonce is used 
             })
             .RemoveServerHeader()

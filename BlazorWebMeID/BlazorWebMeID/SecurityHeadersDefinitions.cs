@@ -24,12 +24,13 @@ public static class SecurityHeadersDefinitions
                 builder.AddBaseUri().Self();
                 builder.AddFrameAncestors().None();
 
-                // due to Blazor Web, nonces cannot be used :(
-                // weak script CSP....
+                // due to Blazor
                 builder.AddScriptSrc()
-                    .Self() // self required
-                    .UnsafeEval() // due to Blazor WASM
-                    .UnsafeInline(); // only a fallback for older browsers when the nonce is used 
+                      .WithNonce()
+                      .UnsafeEval() // due to Blazor WASM
+                      .StrictDynamic()
+                      .OverHttps()
+                      .UnsafeInline(); // only a fallback for older browsers when the nonce is used 
 
             })
             .RemoveServerHeader()
