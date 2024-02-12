@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Components.Server.Circuits;
 
 namespace BlazorWebMeID.Services;
 
+/// <summary>
+/// Original src: https://github.com/javiercn/BlazorWebNonceService
+/// </summary>
 public class BlazorNonceService : CircuitHandler, IDisposable
 {
     private readonly PersistentComponentState _state;
