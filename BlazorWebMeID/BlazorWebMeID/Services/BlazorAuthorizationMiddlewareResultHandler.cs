@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
 
-namespace BlazorWebMeID.Identity.Services;
+namespace BlazorWebMeID.Services;
 
 public class BlazorAuthorizationMiddlewareResultHandler : IAuthorizationMiddlewareResultHandler
 {

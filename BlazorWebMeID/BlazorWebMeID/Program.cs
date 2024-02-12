@@ -1,11 +1,13 @@
+using BlazorWebMeID;
 using BlazorWebMeID.Client.Pages;
 using BlazorWebMeID.Components;
 using BlazorWebMeID.Identity;
 using BlazorWebMeID.Identity.Client.Services;
-using BlazorWebMeID.Identity.Services;
-using HostedBlazorMeID.Server;
+using BlazorWebMeID.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.Circuits;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
@@ -14,6 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.TryAddEnumerable(ServiceDescriptor.Scoped<CircuitHandler, BlazorNonceService>(sp => 
+        sp.GetRequiredService<BlazorNonceService>()));
+
+builder.Services.AddScoped<BlazorNonceService>();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
