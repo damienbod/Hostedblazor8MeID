@@ -28,23 +28,19 @@
     protected override void OnInitialized()
     {
         var nonce = GetOrCreateNonce();
-        BlazorNonceService.SetNonce(nonce);
+        if (nonce != null)
+        {
+            BlazorNonceService.SetNonce(nonce);
+        }
     }
 
-    public string GetOrCreateNonce()
+    public string? GetOrCreateNonce()
     {
         if (Context.Items.TryGetValue("nonce", out var item) && item is string nonce and not null)
         {
             return nonce;
         }
-        else
-        {
-            Span<byte> bytes = stackalloc byte[32];
-            RandomNumberGenerator.Fill(bytes);
-            nonce = Convert.ToBase64String(bytes);
-            Context.Items["nonce"] = nonce;
 
-            return nonce;
-        }
+        return null;
     }
 }
