@@ -14,8 +14,8 @@ using Microsoft.Identity.Web.UI;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
- //   .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
 
 builder.Services.TryAddEnumerable(ServiceDescriptor.Scoped<CircuitHandler, BlazorNonceService>(sp =>
         sp.GetRequiredService<BlazorNonceService>()));
@@ -91,7 +91,7 @@ app.MapGet("/api/Counter", (HttpContext httpContext) => Results.Ok("Data from se
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
-   // .AddInteractiveWebAssemblyRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Counter).Assembly);
 
 app.Run();
