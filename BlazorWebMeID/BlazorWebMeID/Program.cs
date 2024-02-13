@@ -1,9 +1,9 @@
+using BlazorWebMeID;
 using BlazorWebMeID.Client.Pages;
 using BlazorWebMeID.Components;
 using BlazorWebMeID.Identity;
 using BlazorWebMeID.Identity.Client.Services;
 using BlazorWebMeID.Services;
-using BlazorWebMeID;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Identity.Web;
