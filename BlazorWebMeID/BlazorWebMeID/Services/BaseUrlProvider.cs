@@ -1,4 +1,4 @@
-﻿namespace BlazorWebMeID.Identity.Services;
+﻿namespace BlazorWebMeID.Services;
 
 public class BaseUrlProvider
 {
