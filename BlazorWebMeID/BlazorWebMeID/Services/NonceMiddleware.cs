@@ -16,6 +16,7 @@ public class NonceMiddleware
         {
             blazorNonceService.SetNonce(nonce.ToString()!);
         }
+
         await _next.Invoke(context);
     }
 }
