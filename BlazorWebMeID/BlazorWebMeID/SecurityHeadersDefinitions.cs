@@ -1,4 +1,4 @@
-﻿namespace HostedBlazorMeID.Server;
+﻿namespace BlazorWebMeID;
 
 public static class SecurityHeadersDefinitions
 {
