@@ -11,6 +11,14 @@ using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-XSRF-TOKEN";
+    options.Cookie.Name = "__Host-X-XSRF-TOKEN";
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
@@ -52,6 +60,8 @@ builder.Services.AddRazorPages().AddMvcOptions(options =>
     //options.Filters.Add(new AuthorizeFilter(policy));
 }).AddMicrosoftIdentityUI();
 
+builder.Services.AddControllersWithViews();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -69,6 +79,8 @@ app.UseSecurityHeaders(
     SecurityHeadersDefinitions.GetHeaderPolicyCollection(app.Environment.IsDevelopment(),
         app.Configuration["AzureAd:Instance"]));
 
+app.UseRouting();
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -77,8 +89,7 @@ app.UseAntiforgery();
 
 AuthenticationExtensions.SetupEndpoints(app);
 
-app.MapGet("/api/Counter", (HttpContext httpContext) => Results.Ok("Data from secure API"))
-   .RequireAuthorization();
+app.MapControllers();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
