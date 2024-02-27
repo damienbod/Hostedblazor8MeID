@@ -43,3 +43,5 @@ https://auth0.com/blog/auth0-authentication-blazor-web-apps/
 https://github.com/AzureAD/microsoft-identity-web
 
 https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders
+
+https://github.com/javiercn/BlazorWebNonceService

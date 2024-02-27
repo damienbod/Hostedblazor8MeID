@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Cryptography
+@inject BlazorNonceService BlazorNonceService
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,12 +11,39 @@
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="BlazorWebMeID.styles.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
-    <HeadOutlet />
+    <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 
 <body>
-    <Routes />
-    <script src="_framework/blazor.web.js"></script>
+    <Routes @rendermode="InteractiveServer" />
+    <script nonce="@BlazorNonceService.Nonce" src="_framework/blazor.web.js"></script>
 </body>
 
 </html>
+
+@code 
+{
+    /// <summary>
+    /// Original src: https://github.com/javiercn/BlazorWebNonceService
+    /// </summary>
+    [CascadingParameter] HttpContext Context { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        var nonce = GetNonce();
+        if (nonce != null)
+        {
+            BlazorNonceService.SetNonce(nonce);
+        }
+    }
+
+    public string? GetNonce()
+    {
+        if (Context.Items.TryGetValue("nonce", out var item) && item is string nonce and not null)
+        {
+            return nonce;
+        }
+
+        return null;
+    }
+}
