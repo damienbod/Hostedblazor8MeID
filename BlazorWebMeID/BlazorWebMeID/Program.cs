@@ -6,10 +6,22 @@ using BlazorWebMeID.Identity.Client.Services;
 using BlazorWebMeID.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//services.AddAuthenticationCore();
+//services.AddRazorPages();
+//services.AddServerSideBlazor();
+//services.AddScoped<MyAuthenticationStateProvider>();
+//services.AddScoped<AuthenticationStateProvider>(provider =>
+//provider.GetRequiredService<MyAuthenticationStateProvider>());
+//services.AddSingleton<WeatherForecastService>();
+
+builder.Services.AddScoped<HostingEnvironmentService>();
+builder.Services.AddSingleton<BaseUrlProvider>();
 
 builder.Services.AddAntiforgery(options =>
 {
@@ -19,13 +31,6 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
-
-builder.Services.AddCascadingAuthenticationState();
-builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
-
 var scopes = builder.Configuration.GetValue<string>("DownstreamApi:Scopes");
 string[] initialScopes = scopes!.Split(' ');
 
@@ -34,24 +39,8 @@ builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration)
     .AddMicrosoftGraph("https://graph.microsoft.com/v1.0", scopes)
     .AddInMemoryTokenCaches();
 
-// Without, the client component using the API as an error in server mode
-builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, BlazorAuthorizationMiddlewareResultHandler>();
-
-builder.Services.AddScoped<HostingEnvironmentService>();
-builder.Services.AddSingleton<BaseUrlProvider>();
-builder.Services.AddHttpContextAccessor();
-
-builder.Services
-    .AddScoped(sp => sp
-        .GetRequiredService<IHttpClientFactory>()
-        .CreateClient("API"))
-    .AddHttpClient("API", (provider, client) =>
-    {
-        // Get base address
-        var uri = provider.GetRequiredService<BaseUrlProvider>().BaseUrl;
-        client.BaseAddress = new Uri(uri);
-    });
-
+builder.Services.AddAuthorization();
+builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddMvcOptions(options =>
 {
     //var policy = new AuthorizationPolicyBuilder()
@@ -60,7 +49,24 @@ builder.Services.AddRazorPages().AddMvcOptions(options =>
     //options.Filters.Add(new AuthorizeFilter(policy));
 }).AddMicrosoftIdentityUI();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped(sp => sp
+    .GetRequiredService<IHttpClientFactory>()
+    .CreateClient("API"))
+    .AddHttpClient("API", (provider, client) =>
+    {
+        // Get base address
+        var uri = provider.GetRequiredService<BaseUrlProvider>().BaseUrl;
+        client.BaseAddress = new Uri(uri);
+    });
 
 var app = builder.Build();
 
@@ -79,13 +85,19 @@ app.UseSecurityHeaders(
     SecurityHeadersDefinitions.GetHeaderPolicyCollection(app.Environment.IsDevelopment(),
         app.Configuration["AzureAd:Instance"]));
 
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
 app.UseRouting();
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
+
 app.UseAntiforgery();
+
+app.MapRazorPages();
+app.MapControllers();
 
 AuthenticationExtensions.SetupEndpoints(app);
 
