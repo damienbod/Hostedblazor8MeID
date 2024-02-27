@@ -13,6 +13,7 @@
 
 ## History
 
+- 2024-02-27 Fix insecure API in Blazor Web (CSRF on API still broken)
 - 2024-02-13 small clean up
 - 2024-02-07 Use default cookie settings, clean up namespaces, updated packages
 - 2024-02-03 Added Blazor Web OIDC, fixed refresh bug in Hosted WASM 
