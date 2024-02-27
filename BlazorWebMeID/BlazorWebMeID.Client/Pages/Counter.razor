@@ -16,8 +16,8 @@
 <button class="btn btn-primary" @onclick="FetchData">Fetch data using Api</button>
 <p role="status">@DataFromApi</p>
 
-@code {
-
+@code 
+{
     [SupplyParameterFromForm]
     public string? Text { get; set; }
 
@@ -30,9 +30,16 @@
 
     private async Task FetchData()
     {        
-        var client = HttpClientFactory.CreateClient("API");
-        var dataApi = await client.GetStringAsync("/api/Counter");
-        DataFromApi = $"Data fetched: {dataApi} ,  called from {HostingEnvironmentService.EnvironmentName}";
+        if (HostingEnvironmentService.EnvironmentName == "Server")
+        {
+            DataFromApi = "API only works in web assembly mode";
+        }
+        else
+        {
+            var client = HttpClientFactory.CreateClient("API");
+            var dataApi = await client.GetStringAsync("/api/Counter");
+            DataFromApi = $"Data fetched: {dataApi} ,  called from {HostingEnvironmentService.EnvironmentName}";
+        }
     }
 
     private void IncrementCount()
