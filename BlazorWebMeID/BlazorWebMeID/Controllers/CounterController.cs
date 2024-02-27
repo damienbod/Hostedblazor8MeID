@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorWebMeID.Controllers;
 
-[ValidateAntiForgeryToken]
+// [ValidateAntiForgeryToken] not working yet, but this is required, or the custom header CRSF protection
 [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("api/[controller]")]
