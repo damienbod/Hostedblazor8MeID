@@ -5,6 +5,8 @@ using BlazorWebMeID.Identity;
 using BlazorWebMeID.Identity.Client.Services;
 using BlazorWebMeID.Services;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.Circuits;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 

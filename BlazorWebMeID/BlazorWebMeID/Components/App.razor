@@ -1,5 +1,4 @@
 ﻿@using System.Security.Cryptography
-@inject BlazorNonceService BlazorNonceService
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,26 +15,15 @@
 
 <body>
     <Routes @rendermode="InteractiveServer" />
-    <script nonce="@BlazorNonceService.Nonce" src="_framework/blazor.web.js"></script>
+    <script src="_framework/blazor.web.js"></script>
 </body>
 
 </html>
 
 @code 
 {
-    /// <summary>
-    /// Original src: https://github.com/javiercn/BlazorWebNonceService
-    /// </summary>
     [CascadingParameter] HttpContext Context { get; set; } = default!;
 
-    protected override void OnInitialized()
-    {
-        var nonce = GetNonce();
-        if (nonce != null)
-        {
-            BlazorNonceService.SetNonce(nonce);
-        }
-    }
 
     public string? GetNonce()
     {

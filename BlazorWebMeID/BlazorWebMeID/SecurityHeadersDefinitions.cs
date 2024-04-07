@@ -20,18 +20,19 @@ public static class SecurityHeadersDefinitions
                 builder.AddImgSrc().Self().From("data:");
                 builder.AddFormAction().Self().From(idpHost);
                 builder.AddFontSrc().Self();
-                builder.AddStyleSrc().Self();
                 builder.AddBaseUri().Self();
                 builder.AddFrameAncestors().None();
 
-                // due to Blazor
-                builder.AddScriptSrc()
-                      .WithNonce()
-                      .UnsafeEval() // due to Blazor WASM
-                      .StrictDynamic()
-                      .OverHttps()
-                      .UnsafeInline(); // only a fallback for older browsers when the nonce is used 
+                builder.AddStyleSrc()
+                    .UnsafeInline()
+                    .Self();
 
+                builder.AddScriptSrc()
+                    .Self()
+                    .UnsafeInline(); // only a fallback for older browsers when the nonce is used
+
+                // disable script and style CSP protection if using Blazor hot reload
+                // if using hot reload, DO NOT deploy with an insecure CSP
             })
             .RemoveServerHeader()
             .AddPermissionsPolicy(builder =>
