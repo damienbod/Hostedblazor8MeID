@@ -4,21 +4,11 @@ using BlazorWebMeID.Components;
 using BlazorWebMeID.Identity;
 using BlazorWebMeID.Identity.Client.Services;
 using BlazorWebMeID.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
-
-//services.AddAuthenticationCore();
-//services.AddRazorPages();
-//services.AddServerSideBlazor();
-//services.AddScoped<MyAuthenticationStateProvider>();
-//services.AddScoped<AuthenticationStateProvider>(provider =>
-//provider.GetRequiredService<MyAuthenticationStateProvider>());
-//services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddScoped<HostingEnvironmentService>();
 builder.Services.AddSingleton<BaseUrlProvider>();
